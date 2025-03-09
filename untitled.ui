@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 250, 250);
+</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
@@ -23,11 +27,21 @@
         <height>16777215</height>
        </size>
       </property>
+      <property name="styleSheet">
+       <string notr="true">#menu_frame {
+    border: 1px solid #656565;  /* Cor e espessura da borda */
+    border-radius: 9px;        /* Raio para bordas arredondadas */
+    padding: 10px;              /* Espacio entre a borda e os objetos internos */
+}</string>
+      </property>
       <property name="frameShape">
        <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Shadow::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>10</number>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
@@ -48,7 +62,7 @@
           <item>
            <widget class="QLabel" name="logo">
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -70,24 +84,67 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btn_table">
-         <property name="text">
-          <string>Table</string>
+        <widget class="QFrame" name="opt_frame">
+         <property name="frameShape">
+          <enum>QFrame::Shape::StyledPanel</enum>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_second">
-         <property name="text">
-          <string>second</string>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Raised</enum>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_third">
-         <property name="text">
-          <string>third</string>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QPushButton" name="btn_table">
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Table</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_second">
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>second</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_third">
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>third</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Orientation::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -101,6 +158,13 @@
         <height>16777215</height>
        </size>
       </property>
+      <property name="styleSheet">
+       <string notr="true">#main_frame {
+    border: 1px solid #656565;  /* Cor e espessura da borda */
+    border-radius: 9px;        /* Raio para bordas arredondadas */
+    padding: 10px;              /* Espacio entre a borda e os objetos internos */
+}</string>
+      </property>
       <property name="frameShape">
        <enum>QFrame::Shape::StyledPanel</enum>
       </property>
@@ -110,6 +174,17 @@
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <widget class="QTableWidget" name="tableWidget">
+         <property name="font">
+          <font>
+           <family>Ubuntu</family>
+           <pointsize>12</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 12pt &quot;Ubuntu&quot;;</string>
+         </property>
          <column>
           <property name="text">
            <string>Title</string>
@@ -150,13 +225,32 @@
        <enum>QFrame::Shadow::Raised</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QFrame" name="expenses_frame">
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>150</height>
+           <height>100</height>
           </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">#expenses_frame {
+    border: 1px solid #656565;  /* Cor e espessura da borda */
+    border-radius: 9px;        /* Raio para bordas arredondadas */
+    padding: 10px;              /* Espacio entre a borda e os objetos internos */
+}</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::Shape::StyledPanel</enum>
@@ -164,10 +258,45 @@
          <property name="frameShadow">
           <enum>QFrame::Shadow::Raised</enum>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QLabel" name="gain_label">
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Gain:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="expenses_label">
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Expenses:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
         <widget class="QFrame" name="category_frame">
+         <property name="styleSheet">
+          <string notr="true">#category_frame {
+    border: 1px solid #656565;  /* Cor e espessura da borda */
+    border-radius: 9px;        /* Raio para bordas arredondadas */
+    padding: 10px;              /* Espacio entre a borda e os objetos internos */
+}</string>
+         </property>
          <property name="frameShape">
           <enum>QFrame::Shape::StyledPanel</enum>
          </property>
@@ -182,6 +311,8 @@
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
