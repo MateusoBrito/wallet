@@ -2,6 +2,7 @@ import customtkinter as ctk
 from tkinter import ttk
 from models.spent import Spent
 
+
 # Classe responsável por criar a tabela
 class TabelaApp:
     def __init__(self, frame, spents):
