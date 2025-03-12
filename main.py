@@ -29,7 +29,7 @@ def carregar_dados(arquivo):
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.title("Tabela com Treeview")
+        self.title("Wallet")
         self.geometry("600x400")
 
         # Frame para a tabela
@@ -41,6 +41,18 @@ class App(ctk.CTk):
 
         # Criar a tabela no frame
         TabelaApp(self.tabela_frame, spents)
+
+        self.btn_new_spent = ctk.CTkButton(self, text = 'New Spent', command = self.screen_new_spent)
+        self.btn_new_spent.pack(pady=20)
+
+        
+    def screen_new_spent(self):
+        new_screen = ctk.CTkToplevel(self)
+        new_screen.title = ("New Spent")
+        new_screen.geometry("300x200")
+
+        label = ctk.CTkLabel(new_screen, text="Bem-vindo à nova tela!")
+        label.pack(pady=20)
 
 # Inicializando o aplicativo
 if __name__ == "__main__":
