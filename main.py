@@ -7,6 +7,7 @@ from table import TabelaApp
 ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("blue")
 
+
 # Função para carregar os dados do arquivo
 def carregar_dados(arquivo):
     with open(arquivo, 'r') as f:
