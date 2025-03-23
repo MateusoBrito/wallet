@@ -4,9 +4,10 @@ from models.category import Category
 from table import TabelaApp
 
 # Configuração inicial do customtkinter
-ctk.set_appearance_mode("System")
+ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
+DATA = './DAO/data.txt'
 
 # Função para carregar os dados do arquivo
 def carregar_dados(arquivo):
@@ -28,7 +29,7 @@ def carregar_dados(arquivo):
     return spents
 
 def write_data(spent):
-    with open('banco.txt', 'a') as f:
+    with open(DATA, 'a') as f:
         f.write(f"{spent.value}, {spent.category}, {spent.date}\n")
         return True
     return False
@@ -38,15 +39,17 @@ class App(ctk.CTk):
         super().__init__()
         self.title("Wallet")
         self.geometry("900x500")
-        self.screen_table()
-        self.screen_category()
+        self.minsize(width=900, height=500)
 
-    def screen_category(self):
+        self.frame_table()
+        self.frame_category()
+
+    def frame_category(self):
         # Frame para a categoria, que ocupará 200px da largura na direita
         self.category_frame = ctk.CTkFrame(self, width=200)
         self.category_frame.pack(side="right", fill="y", padx=10, pady=30)
 
-    def screen_table(self):
+    def frame_table(self):
         # Frame para a tabela, ocupando o restante da largura
         self.table_frame = ctk.CTkFrame(self)
         self.table_frame.pack(side="left", fill="both", expand=True, padx=10, pady=30)
@@ -56,43 +59,46 @@ class App(ctk.CTk):
         table_container.pack(fill="both", expand=True)
 
         # Leitura dos dados
-        spents = carregar_dados('banco.txt')
+        spents = carregar_dados(DATA)
 
         # Criar a tabela no frame
-        table = TabelaApp(table_container, spents)
+        self.table = TabelaApp(table_container, spents)
 
-        self.btn_new_spent = ctk.CTkButton(self.table_frame, text = 'New Spent', command = self.screen_new_spent2)
+        self.btn_new_spent = ctk.CTkButton(self.table_frame, text = 'New Spent', command = self.screen_new_spent)
         self.btn_new_spent.pack(side="bottom", pady=10)
     
-    def screen_new_spent2(self):
-        self.table_frame.forget()
+    def screen_new_spent(self):
+        screen = ctk.CTkToplevel(self)
+        screen.title("New Spent")
+        screen.geometry("300x280")
 
-        new_screen = ctk.CTkFrame(self)
-        new_screen.pack(padx=280, pady=120)
+        ctk.CTkLabel(screen, text="Value:").pack()
+        entry_value = ctk.CTkEntry(screen, placeholder_text="00000")
+        entry_value.pack()
 
-        ctk.CTkLabel(new_screen, text="Value:").pack(pady=5)
-        entry_value = ctk.CTkEntry(new_screen)
-        entry_value.pack(pady=5, padx=100)
+        ctk.CTkLabel(screen, text="Category:").pack()
+        categories = [category.value for category in Category]
+        entry_category = ctk.CTkOptionMenu(screen, values= categories,height= 32 ,fg_color= "#343638", button_color="#343638")
+        entry_category.pack()
+        entry_category.set("Choice")
 
-        ctk.CTkLabel(new_screen, text="Category:").pack(pady=5)
-        entry_category = ctk.CTkEntry(new_screen)
-        entry_category.pack(pady=5, padx=100)
-
-        ctk.CTkLabel(new_screen, text="Date (dd/mm/yyyy):").pack(pady=5)
-        entry_date = ctk.CTkEntry(new_screen)
-        entry_date.pack(pady=5, padx=100)
+        ctk.CTkLabel(screen, text="Date:").pack()
+        entry_date = ctk.CTkEntry(screen, placeholder_text="dd/mm/yyyy")
+        entry_date.pack()
+        
 
         def save_data():
-            spent = Spent(value=entry_value.get(), category=entry_category.get(), date=entry_date.get())
+            category = Category[entry_category.get().upper()]
+            spent = Spent(value=float(entry_value.get()), category=category.name, date=entry_date.get())
 
             if write_data(spent):
-                new_screen.forget()
-                self.screen_table()
+                self.table.append(spent)
+                screen.destroy()
             else:
-                error_label = ctk.CTkLabel(new_screen, text="Erro ao salvar o arquivo!", text_color="red")
+                error_label = ctk.CTkLabel(screen, text="Erro ao salvar o arquivo!", text_color="red")
                 error_label.pack(pady=10)
         
-        ctk.CTkButton(new_screen, text="Save", command=save_data).pack(pady=20)
+        ctk.CTkButton(screen, text="Save", command=save_data).pack(pady=20)
 
 # Inicializando o aplicativo
 if __name__ == "__main__":

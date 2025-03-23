@@ -31,3 +31,6 @@ class TabelaApp:
         # Posicionando a tabela e a barra de rolagem
         self.tree.pack(side="left", fill="both", expand=True, padx=10, pady=10)
         scrollbar.pack(side="right", fill="y")
+
+    def append(self, spent):
+        self.tree.insert("", "end", values=(spent.value, spent.category.name, spent.date))

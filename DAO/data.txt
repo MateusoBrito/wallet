@@ -1,5 +1,5 @@
 675, home, 1/1/1
 50, transport, 1/1/1
 100, home, 10/10/10
-123, HOME, 12/12/11
-10, home, 10
+110, transport, 23/03/2025
+80.0, SUPERMARKET, 24/05/2025
