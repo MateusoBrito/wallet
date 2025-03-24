@@ -1,6 +1,4 @@
-import customtkinter as ctk
 from tkinter import ttk
-from models.spent import Spent
 
 
 # Classe responsável por criar a tabela
@@ -33,4 +31,4 @@ class TabelaApp:
         scrollbar.pack(side="right", fill="y")
 
     def append(self, spent):
-        self.tree.insert("", "end", values=(spent.value, spent.category.name, spent.date))
+        self.tree.insert("", "end", values=(spent.value, spent.category, spent.date))

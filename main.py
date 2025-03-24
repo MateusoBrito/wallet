@@ -1,38 +1,12 @@
 import customtkinter as ctk
 from models.spent import Spent
 from models.category import Category
+from database.dao import Dao
 from table import TabelaApp
 
 # Configuração inicial do customtkinter
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
-
-DATA = './DAO/data.txt'
-
-# Função para carregar os dados do arquivo
-def carregar_dados(arquivo):
-    with open(arquivo, 'r') as f:
-        linhas = f.readlines()
-    # Separar as linhas e os valores por vírgula
-
-    spents = []
-    for linha in linhas:
-        dados = linha.strip().split(',')
-
-        value = float(dados[0])
-        category = Category[dados[1].strip().upper()]
-        date = dados[2].strip()
-
-        spent = Spent(value=value, category=category, date=date)
-        spents.append(spent)
-    
-    return spents
-
-def write_data(spent):
-    with open(DATA, 'a') as f:
-        f.write(f"{spent.value}, {spent.category}, {spent.date}\n")
-        return True
-    return False
 
 class App(ctk.CTk):
     def __init__(self):
@@ -42,24 +16,48 @@ class App(ctk.CTk):
         self.minsize(width=900, height=500)
 
         self.frame_table()
-        self.frame_category()
+        self.frame_right()
 
-    def frame_category(self):
+    def frame_right(self):
         # Frame para a categoria, que ocupará 200px da largura na direita
-        self.category_frame = ctk.CTkFrame(self, width=200)
-        self.category_frame.pack(side="right", fill="y", padx=10, pady=30)
+        self.frame_right = ctk.CTkFrame(self)
+        self.frame_right.pack(side="right", fill="y", padx=10, pady=10)
+        self.frame_right.configure(width=200) 
+        self.frame_right.pack_propagate(False) 
+
+        spents = Dao.carregar_dados()
+
+        top_frame = ctk.CTkFrame(self.frame_right, height=50)
+        top_frame.pack(side="top", fill="x", padx=10, pady=10)
+        total = 0
+        for spent in spents:
+            total += spent.value
+        text = f"total: {total:.2f}"
+        ctk.CTkLabel(top_frame, text=text).pack(anchor="w", padx=10, pady=10)
+
+        frame_category = ctk.CTkFrame(self.frame_right)
+        frame_category.pack(side="top", fill="both", expand=True, padx=10, pady=10)
+
+        category_totals = {category.value: 0 for category in Category}
+        for spent in spents:
+            category_totals[spent.category.value] += spent.value
+
+        for category, total in category_totals.items():
+            text = f"{category}: {total:.2f}"
+            ctk.CTkLabel(frame_category, text=text).pack(anchor="w", padx=10, pady=10)
+
 
     def frame_table(self):
         # Frame para a tabela, ocupando o restante da largura
         self.table_frame = ctk.CTkFrame(self)
-        self.table_frame.pack(side="left", fill="both", expand=True, padx=10, pady=30)
+        self.table_frame.pack(side="left", fill="both", expand=True, padx=10, pady=10)
 
 
         table_container = ctk.CTkFrame(self.table_frame)
-        table_container.pack(fill="both", expand=True)
+        table_container.pack(fill="both", expand=True, padx=10, pady=10)
 
         # Leitura dos dados
-        spents = carregar_dados(DATA)
+        spents = Dao.carregar_dados()
 
         # Criar a tabela no frame
         self.table = TabelaApp(table_container, spents)
@@ -91,7 +89,7 @@ class App(ctk.CTk):
             category = Category[entry_category.get().upper()]
             spent = Spent(value=float(entry_value.get()), category=category.name, date=entry_date.get())
 
-            if write_data(spent):
+            if Dao.write_data(spent):
                 self.table.append(spent)
                 screen.destroy()
             else:
